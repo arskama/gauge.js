@@ -17,16 +17,19 @@
   <!--[if lt IE 9]><script type="text/javascript" src="assets/excanvas.compiled.js"></script><![endif]-->
 </head>
 <body>
+<div>
+  <h2 id='CPSupport'> </h2>
+</div>
 <div id="content">
   <div id="metric_a">
-    <h2>Metric_a</h2>
+    <h2>cpu Speed</h2>
     <div id="metric_a">
-      <div id="metric_a-textfield"></div>
       <canvas width=400 height=200 id="canvas_metric_a"></canvas>
+      <div id="metric_a-textfield"></div>
     </div>
   </div>
   <div id="metric_b">
-    <h2>Metric_b</h2>
+    <h2>cpu Utilization</h2>
     <div id="metric_b">
       <div id="metric_b-textfield"></div>
       <canvas width=400 height=200 id="canvas_metric_b"></canvas>
@@ -39,6 +42,28 @@
 
 
 <script type="text/javascript">
+if('ComputePressureObserver' in window) {
+
+  document.getElementById('CPSupport').innerHTML = 'Compute Pressure available';
+  const observer = new ComputePressureObserver(
+    computePressureCallback,
+    {
+      cpuUtilizationThresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+      cpuSpeedThresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+    });
+
+    observer.observe();
+
+    function computePressureCallback(update) {
+      console.log("cpu speed: " + update.cpuSpeed);
+      console.log("cpu utils: " + update.cpuUtilization);
+
+      gauge_a.set(update.cpuSpeed * 100);
+      gauge_b.set(update.cpuUtilization * 100);
+    }
+
+
+
 var bigFont = "14px sans-serif";
 var opts = {
   angle: 0.0, /// The span of the gauge arc
@@ -84,17 +109,20 @@ var opts = {
 //  ],
   generateGradient: true,
 };
-var target = document.getElementById('canvas_metric_a'); // your canvas element
-var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-gauge.setTextField(document.getElementById("metric_a-textfield"));
-gauge.maxValue = 100; // set max gauge value
-gauge.MinValue = 0;  // set min value
-gauge.set(30); // set actual value
+var target_a = document.getElementById('canvas_metric_a'); // your canvas element
+var gauge_a = new Gauge(target_a).setOptions(opts); // create sexy gauge!
+gauge_a.setTextField(document.getElementById("metric_a-textfield"));
+gauge_a.maxValue = 100; // set max gauge value
+gauge_a.MinValue = 0;  // set min value
+gauge_a.set(0); // set actual value
 
-var target = document.getElementById('canvas_metric_b'); // your canvas element
-var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-gauge.setTextField(document.getElementById("metric_b-textfield"));
-gauge.maxValue = 100; // set max gauge value
-gauge.MinValue = 0;  // set min value
-gauge.set(70); // set actual value
+var target_b = document.getElementById('canvas_metric_b'); // your canvas element
+var gauge_b = new Gauge(target_b).setOptions(opts); // create sexy gauge!
+gauge_b.setTextField(document.getElementById("metric_b-textfield"));
+gauge_b.maxValue = 100; // set max gauge value
+gauge_b.MinValue = 0;  // set min value
+gauge_b.set(0); // set actual value
+}else{
+  document.getElementById('CPSupport').innerText = 'Compute Pressure NOT available';
+}
 </script>
