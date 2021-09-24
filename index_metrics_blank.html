@@ -36,6 +36,11 @@
     </div>
   </div>
 </div> <!--content-->
+  <p>
+    <button id="start-button">Start observing</button>
+    <button id="stop-button">Stop observing</button>
+  </p>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="assets/fd-slider/fd-slider.js"></script>
 <script src="dist/gauge.js"></script>
@@ -45,14 +50,6 @@
 if('ComputePressureObserver' in window) {
 
   document.getElementById('CPSupport').innerHTML = 'Compute Pressure available';
-  const observer = new ComputePressureObserver(
-    computePressureCallback,
-    {
-      cpuUtilizationThresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-      cpuSpeedThresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-    });
-
-    observer.observe();
 
     function computePressureCallback(update) {
       console.log("cpu speed: " + update.cpuSpeed);
@@ -62,6 +59,28 @@ if('ComputePressureObserver' in window) {
       gauge_b.set(update.cpuUtilization * 100);
     }
 
+
+        // Used by "Start observing" and "Stop observing" buttons.
+      let observer = null;
+
+      const startButton = document.getElementById("start-button");
+      startButton.addEventListener("click", () => {
+        const observer = new ComputePressureObserver(
+        computePressureCallback,
+        {
+          cpuUtilizationThresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+          cpuSpeedThresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        });
+        observer.observe();
+      });
+
+      const stopButton = document.getElementById("stop-button");
+      stopButton.addEventListener("click", () => {
+        if (observer !== null) observer.stop();
+
+        // Intentionally not setting `observer` to null so we can manually test that
+        // stop() is idempotent.
+      });
 
 
 var bigFont = "14px sans-serif";
