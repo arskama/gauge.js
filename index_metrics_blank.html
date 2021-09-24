@@ -17,20 +17,22 @@
   <!--[if lt IE 9]><script type="text/javascript" src="assets/excanvas.compiled.js"></script><![endif]-->
 </head>
 <body>
-
 <div id="content">
-
-<div id="example" class="gauge">
-  <h2>Example</h2>
-
   <div id="metric_a">
-    <div id="metric_a-textfield"></div>
-    <canvas width=800 height=500 id="canvas_metric_a"></canvas>
+    <h2>Metric_a</h2>
+    <div id="metric_a">
+      <div id="metric_a-textfield"></div>
+      <canvas width=400 height=200 id="canvas_metric_a"></canvas>
+    </div>
   </div>
-
-
-</div>
-</div>
+  <div id="metric_b">
+    <h2>Metric_b</h2>
+    <div id="metric_b">
+      <div id="metric_b-textfield"></div>
+      <canvas width=400 height=200 id="canvas_metric_b"></canvas>
+    </div>
+  </div>
+</div> <!--content-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="assets/fd-slider/fd-slider.js"></script>
 <script src="dist/gauge.js"></script>
@@ -60,20 +62,26 @@ var opts = {
   staticLabels: {
     font: "10px sans-serif",  // Specifies font
     labels: [{label:0, font: bigFont},
-             {label:25, font: bigFont},
+             {label:10, font: bigFont},
+             {label:20, font: bigFont},
+             {label:30, font: bigFont},
+             {label:40, font: bigFont},
              {label:50, font: bigFont},
-             {label:75, font: bigFont},
+             {label:60, font: bigFont},
+             {label:70, font: bigFont},
+             {label:80, font: bigFont},
+             {label:90, font: bigFont},
              {label:100, font: bigFont}],
 
     color: "#000000",  // Optional: Label text color
     fractionDigits: 0  // Optional: Numerical precision. 0=round off.
   },
   strokeColor: '#E0E0E0',   // to see which ones work best for you
-  staticZones: [
-    {strokeStyle: "#30B32D", min: 0, max: 60}, // Red from 100 to 130
-    {strokeStyle: "#FFDD00", min: 60, max: 90}, // Yellow
-    {strokeStyle: "#F03E3E", min: 90, max: 100}, // Green
-  ],
+//  staticZones: [
+//    {strokeStyle: "#30B32D", min: 0, max: 60}, // Red from 100 to 130
+//    {strokeStyle: "#FFDD00", min: 60, max: 90}, // Yellow
+//    {strokeStyle: "#F03E3E", min: 90, max: 100}, // Green
+//  ],
   generateGradient: true,
 };
 var target = document.getElementById('canvas_metric_a'); // your canvas element
@@ -83,4 +91,10 @@ gauge.maxValue = 100; // set max gauge value
 gauge.MinValue = 0;  // set min value
 gauge.set(30); // set actual value
 
+var target = document.getElementById('canvas_metric_b'); // your canvas element
+var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+gauge.setTextField(document.getElementById("metric_b-textfield"));
+gauge.maxValue = 100; // set max gauge value
+gauge.MinValue = 0;  // set min value
+gauge.set(70); // set actual value
 </script>
