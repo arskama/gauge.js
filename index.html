@@ -305,7 +305,7 @@ var opts_c = {
 };
 var target_c = document.getElementById('canvas_metric_c'); // your canvas element
 var gauge_c = new Gauge(target_c).setOptions(opts_c); // create sexy gauge!
-gauge_c.setTextField(document.getElementById("metric_c-textfield"));
+gauge_c.setTextField(document.getElementById("metric_c-textfield"), 2);
 gauge_c.maxValue = 4; // set max gauge value
 gauge_c.MinValue = 0;  // set min value
 gauge_c.set(0); // set actual value
