@@ -85,7 +85,7 @@ body, html {
     </div>
   </div>
   <div id="metric_d" class="rightpane">
-    <h2>Renderi/3D Eng. Utilization</h2>
+    <h2>Render/3D Eng. Utilization</h2>
     <div id="metric_d">
       <div id="metric_d-textfield" class="bigFont"></div>
       <canvas width=400 height=200 id="canvas_metric_d"></canvas>
@@ -311,8 +311,52 @@ gauge_c.MinValue = 0;  // set min value
 gauge_c.set(0); // set actual value
 gauge_c.animationSpeed = 1;
 
+var opts_d = {
+  angle: 0.0, /// The span of the gauge arc
+  lineWidth: 0.2, // The line thickness
+  radiusScale: 0.9,
+  fontSize: 0.2,
+  pointer: {
+    length: 0.6, // Relative to gauge radius
+    strokeWidth: 0.05 // The thickness
+  },
+  renderTicks: {
+          divisions: 10,
+          divWidth: 1.1,
+          divLength: 0.7,
+          divColor: "#333333",
+          //subDivisions: 2,
+          //subLength: 0.2,
+          //subWidth: 0.6,
+          //subColor: "#666666",
+  },
+  staticLabels: {
+    font: "10px sans-serif",  // Specifies font
+    labels: [{label: 0, font: bigFont},
+             {label:10, font: bigFont},
+             {label:20, font: bigFont},
+             {label:30, font: bigFont},
+             {label:40, font: bigFont},
+             {label:50, font: bigFont},
+             {label:60, font: bigFont},
+             {label:70, font: bigFont},
+             {label:80, font: bigFont},
+             {label:90, font: bigFont},
+             {label:100, font: bigFont}],
+
+    color: "#000000",  // Optional: Label text color
+    fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+  },
+  strokeColor: '#E0E0E0',   // to see which ones work best for you
+//  staticZones: [
+//    {strokeStyle: "#30B32D", min: 0, max: 60}, // Red from 100 to 130
+//    {strokeStyle: "#FFDD00", min: 60, max: 90}, // Yellow
+//    {strokeStyle: "#F03E3E", min: 90, max: 100}, // Green
+//  ],
+  generateGradient: true,
+};
 var target_d = document.getElementById('canvas_metric_d'); // your canvas element
-var gauge_d = new Gauge(target_d).setOptions(opts_b); // create sexy gauge!
+var gauge_d = new Gauge(target_d).setOptions(opts_d); // create sexy gauge!
 gauge_d.setTextField(document.getElementById("metric_d-textfield"));
 gauge_d.maxValue = 100; // set max gauge value
 gauge_d.MinValue = 0;  // set min value
